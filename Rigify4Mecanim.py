@@ -1,6 +1,8 @@
 bl_info = {
     "name": "Rigify to Unity",
     "category": "Rigging",
+    "description": "Change Rigify rig into Mecanim-ready rig for Unity",
+    "location": "At the bottom of Rigify rig data/armature tab"
 }
 
 import bpy
@@ -36,6 +38,7 @@ class UnityMecanim_Panel(bpy.types.Panel):
 
     def register():
         bpy.types.Scene.myfile_path = bpy.props.StringProperty(name="Export file", subtype="FILE_PATH")
+        bpy.types.Scene.myapply_tr = bpy.props.BoolProperty(name="!Apply Transform!", default=True) 
     
     @classmethod
     def poll(self, context):
@@ -49,6 +52,7 @@ class UnityMecanim_Panel(bpy.types.Panel):
     def draw(self, context):
         self.layout.operator("rig4mec.convert2unity")
         self.layout.prop(context.scene, "myfile_path")
+        self.layout.prop(context.scene, "myapply_tr")
         self.layout.operator("rig4mec.export2fbx")
         
         
@@ -92,17 +96,14 @@ class UnityMecanim_Export2FBX(bpy.types.Operator):
     bl_idname = "rig4mec.export2fbx"
     bl_label = "Export to FBX file"
     
-    filepath = bpy.props.StringProperty(name="file_path", subtype="FILE_PATH")
-    
-    def draw(self, context):
-        self.layout.prop(self, "file_path")
     
     def execute(self, context):
         ob = bpy.context.object
         for o in ob.children:
             o.select=True
         fbxout = bpy.path.abspath(context.scene["myfile_path"])
-        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, use_armature_deform_only=True)
+        myApplyTr = context.scene["myapply_tr"]
+        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, use_armature_deform_only=True, bake_space_transform=myApplyTr)
         self.report({'INFO'}, 'Rigged character exported!')                
 
         return{'FINISHED'}
