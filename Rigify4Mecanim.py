@@ -31,7 +31,7 @@ class UnityRigify_Panel(bpy.types.Panel):
 
 
 class UnityMecanim_Panel(bpy.types.Panel):
-    bl_label = "Rigyf to Unity converter"
+    bl_label = "Rigify to Unity converter"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "data"
