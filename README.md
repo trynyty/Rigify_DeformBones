@@ -17,6 +17,7 @@ This script is addon. It creates a buttons in generated rig from Rigify addon. Y
 There is button for converting the Rigify rig into Unity Mecanim ready rig. And also a button to convert it back to Rigify rig. 
 
 There is one more button for exporting the final rig and mesh into fbx file. You have to specify (or select) path and file name (with *.fbx extension) and it will take the rig and mesh (which is child of the rig... if it is not you have to shift+select the mesh manually) and creates an fbx file with only the deformation bones (so no unneeded bones are exported and the rig is clean in unity).
+There is a checkbox for the experimental feature !Apply Transform! (from fbx exporter) which you can deselect if it's causing problems.
 
 **_Installation:_** 
 - You have to put it into %blender_directory%/scripts/addons
