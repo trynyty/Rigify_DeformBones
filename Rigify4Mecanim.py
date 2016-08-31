@@ -88,7 +88,7 @@ class UnityMecanim_Convert2Rigify(bpy.types.Operator):
         for object in ob.data.bones:
             if porg.match(object.name):
                 object.use_deform = True
-        self.report({'INFO'}, 'Rgify ready rig!')                
+        self.report({'INFO'}, 'Rigify ready rig!')                
 
         return{'FINISHED'}
     
