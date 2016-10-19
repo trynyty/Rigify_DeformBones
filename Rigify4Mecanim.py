@@ -103,7 +103,7 @@ class UnityMecanim_Export2FBX(bpy.types.Operator):
             o.select=True
         fbxout = bpy.path.abspath(context.scene["myfile_path"])
         myApplyTr = context.scene["myapply_tr"]
-        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, use_armature_deform_only=True, bake_space_transform=myApplyTr)
+        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, apply_unit_scale=False, use_armature_deform_only=True, bake_space_transform=myApplyTr)
         self.report({'INFO'}, 'Rigged character exported!')                
 
         return{'FINISHED'}
