@@ -20,5 +20,5 @@ There is one more button for exporting the final rig and mesh into fbx file. You
 There is a checkbox for the experimental feature !Apply Transform! (from fbx exporter) which you can deselect if it's causing problems.
 
 **_Installation:_** 
-- You have to put it into %blender_directory%/scripts/addons (if not you need to use "Install from File" in Addons tab)
-- Open File -> User Preferences -> Addons -> under Rigging category, there is Rigify to Unity addon (enable it) 
+- Open File -> User Preferences -> Addons -> Instal from File... -> choose the downloaded script and install it
+- You can find the Addon under Rigging category, there should be "Rigify to Unity" addon
