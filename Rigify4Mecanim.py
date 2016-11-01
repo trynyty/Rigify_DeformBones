@@ -36,10 +36,6 @@ class UnityMecanim_Panel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "data"
 
-    def register():
-        bpy.types.Scene.myfile_path = bpy.props.StringProperty(name="Export file", subtype="FILE_PATH")
-        bpy.types.Scene.myapply_tr = bpy.props.BoolProperty(name="!Apply Transform!", default=True) 
-    
     @classmethod
     def poll(self, context):
         if context.object and context.object.type == 'ARMATURE':
@@ -51,9 +47,10 @@ class UnityMecanim_Panel(bpy.types.Panel):
     
     def draw(self, context):
         self.layout.operator("rig4mec.convert2unity")
-        self.layout.prop(context.scene, "myfile_path")
-        self.layout.prop(context.scene, "myapply_tr")
+        self.layout.prop(context.object, "myfile_path")
+        self.layout.prop(context.object, "myapply_tr")
         self.layout.operator("rig4mec.export2fbx")
+        #context.object.myapply_tr = True;
         
         
 class UnityMecanim_Convert2Unity(bpy.types.Operator):
@@ -101,27 +98,38 @@ class UnityMecanim_Export2FBX(bpy.types.Operator):
         ob = bpy.context.object
         for o in ob.children:
             o.select=True
-        fbxout = bpy.path.abspath(context.scene["myfile_path"])
-        myApplyTr = context.scene["myapply_tr"]
-        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, apply_unit_scale=False, use_armature_deform_only=True, bake_space_transform=myApplyTr)
+        fbxout = bpy.path.abspath(ob.myfile_path)
+        myApplyTr = ob.myapply_tr
+                
+        bpy.ops.export_scene.fbx(filepath=fbxout, use_selection=True, use_armature_deform_only=True, bake_space_transform=myApplyTr, apply_unit_scale=False)
         self.report({'INFO'}, 'Rigged character exported!')                
 
         return{'FINISHED'}
 
 
 def register():
+    #properties
+    bpy.types.Object.myfile_path = bpy.props.StringProperty(name="Export file", subtype="FILE_PATH")
+    bpy.types.Object.myapply_tr = bpy.props.BoolProperty(name="!Apply Transform!", default=True)
+    #classes     
     bpy.utils.register_class(UnityRigify_Panel)
     bpy.utils.register_class(UnityMecanim_Panel)
     bpy.utils.register_class(UnityMecanim_Convert2Unity)
     bpy.utils.register_class(UnityMecanim_Convert2Rigify)
     bpy.utils.register_class(UnityMecanim_Export2FBX)
     
+    
 def unregister():
+    #classes
     bpy.utils.unregister_class(UnityRigify_Panel)
     bpy.utils.unregister_class(UnityMecanim_Panel)
     bpy.utils.unregister_class(UnityMecanim_Convert2Unity)
     bpy.utils.unregister_class(UnityMecanim_Convert2Rigify)
     bpy.utils.unregister_class(UnityMecanim_Export2FBX)
+    #properties
+    del bpy.types.Object.myfile_path
+    del bpy.types.Object.myapply_tr
+     
     
 
     
